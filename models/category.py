@@ -4,10 +4,16 @@ Base = declarative_base # декларативный стиль описания
 
 
 class Category(Base):
-    """ Класс для описания таблицы "Категория товаров". """
+    """
+    Класс для описания таблицы "Категория товаров".
+    Attributes
+        __tablename__: название таблицы
+        id: поле id
+        name: поле названия категории
+        is_active: поле наличия категории
+    """
     __tablename__ = 'category'
 
-    # ниже указаны поля таблиц
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     is_active = Column(Boolean)
@@ -15,3 +21,4 @@ class Category(Base):
     def __str__(self):
         """ Метод возвращает строковое представление объекта класса. """
         return self.name
+
