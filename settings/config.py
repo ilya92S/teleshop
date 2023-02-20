@@ -1,15 +1,13 @@
 import os
 from emoji import emojize
 
-TOKEN = ''
+TOKEN = '5976169619:AAG2ni-VRyjkHXfG5NO3Y0UfnaFKW6pyo0k'
 NAME_BD = 'products.sqlite'
 VERSION = '0.0.1'
 AUTHOR = 'ILYA'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print(BASE_DIR)
 DATABASE = os.path.join('sqlite:///' + BASE_DIR + NAME_BD)
-print(DATABASE)
 COUNT = 0
 
 KEYBOARD = {
@@ -37,9 +35,9 @@ CATEGORY = {
     'SEMIPRODUCT': 1,
     'GROCERY': 2,
     'ICE_CREAM': 3
-} # id катугории продуктв
+} # id категории продуктв
 
 COMMANDS = {
     'START': 'start',
     'HELP': 'help'
-}
+} # название команд
