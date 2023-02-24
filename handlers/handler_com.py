@@ -20,6 +20,6 @@ class HandlerCommands(Handler):
 
         @self.bot.message_handler(commands=['start'])
         def handle(message):
-            print(type(message))
+            print(f'команда {message.text} была отловлена обработчиком событий', message.from_user.id, message.from_user.first_name)
             if message.text == '/start':
                 self.press_btn_start(message)

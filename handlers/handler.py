@@ -19,4 +19,4 @@ class Handler(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def handle(self):
-        pass
+        pass # этот задекорированный метод нужно переопределять в классах наследниках

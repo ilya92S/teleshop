@@ -44,6 +44,8 @@ class HandlerAllText(Handler):
         """
         @self.bot.message_handler(func=lambda message: True)
         def handle(message):
+            print(f'команда {message.text} была отловлена обработчиком событий', message.from_user.id,
+                  message.from_user.first_name)
             """*****МЕНЮ*****"""
             if message.text == config.KEYBOARD['INFO']:
                 self.pressed_btn_info(message)
