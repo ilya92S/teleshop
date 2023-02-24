@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from models.product import Product
 
-Base = declarative_base # декларативный стиль описания сущности
+Base = declarative_base() # декларативный стиль описания сущности
 
 
 class Order(Base):

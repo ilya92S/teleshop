@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base # декларативный стиль описания сущности
+Base = declarative_base() # декларативный стиль описания сущности
 
 
 class Category(Base):

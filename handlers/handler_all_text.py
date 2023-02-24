@@ -37,6 +37,28 @@ class HandlerAllText(Handler):
         self.bot.send_message(message.chat.id, "Вы вернулись назад",
                               reply_markup=self.keybords.start_menu())
 
+    def pressed_btn_category(self, message):
+        """
+        Обработка событий нажатия на кнопку "Выбрать товар".
+        Выбор категории товаров.
+        """
+        self.bot.send_message(message.chat.id, "Каталог категорий товара",
+                              reply_markup=self.keybords.remove_menu())
+        self.bot.send_message(message.chat.id, "Сделайте свой выбор",
+                              reply_markup=self.keybords.category_menu())
+
+    def pressed_btn_product(self, message, product):
+        """
+        Обработка событий нажатия на кнопку "Выбрать товар".
+        Точнее это выбор товара из категории.
+        """
+        self.bot.send_message(message.chat.id, "Категория" +
+                              config.KEYBOARD[product],
+                              reply_markup=self.keybords.set_select_category
+                              (config.KEYBOARD[product]))
+        self.bot.send_message(message.chat.id, "Ok",
+                              reply_markup=self.keybords.category_menu())
+
     def handle(self):
         """
         Обработчик(декоратор) сообщений, который обрабатывает
@@ -46,11 +68,26 @@ class HandlerAllText(Handler):
         def handle(message):
             print(f'команда {message.text} была отловлена обработчиком событий', message.from_user.id,
                   message.from_user.first_name)
+
             """*****МЕНЮ*****"""
             if message.text == config.KEYBOARD['INFO']:
                 self.pressed_btn_info(message)
+
             if message.text == config.KEYBOARD['SETTINGS']:
                 self.pressed_btn_settings(message)
+
             if message.text == config.KEYBOARD['<<']:
                 self.pressed_btn_back(message)
 
+            if message.text == config.KEYBOARD['CHOOSE_GOODS']:
+                self.pressed_btn_category(message)
+
+            """*****меню(категория товара, ПФ, Бакалея, Мороженное)*****"""
+            if message.text == config.KEYBOARD['SEMIPRODUCT']:
+                self.pressed_btn_product(message, '')
+
+            if message.text == config.KEYBOARD['GROCERY']:
+                self.pressed_btn_product(message, 'GROCERY')
+
+            if message.text == config.KEYBOARD['ICE_CREAM']:
+                self.pressed_btn_product(message, 'ICE_CREAM')
