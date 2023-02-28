@@ -7,7 +7,7 @@ VERSION = '0.0.1'
 AUTHOR = 'ILYA'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE = os.path.join('sqlite:///' + BASE_DIR + NAME_BD)
+DATABASE = os.path.join('sqlite:///' + BASE_DIR, NAME_BD)
 COUNT = 0
 
 KEYBOARD = {

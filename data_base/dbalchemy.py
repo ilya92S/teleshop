@@ -1,12 +1,12 @@
 from os import path
-
+import emoji
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from data_base.dbcore import Base
 
 from settings import config
 from models.product import Product
-Base = declarative_base()
+
 
 class Singleton(type):
     """
@@ -45,9 +45,15 @@ class DBManager(metaclass=Singleton):
         """
         Возвращает все товары категории
         """
+        id = 0
+        if category[2::] == 'Полуфабрикаты':
+            id = 1
+        elif category[2::] == 'Бакалея':
+            id = 2
+        elif category[2::] == 'Мороженое':
+            id = 3
         result = self._session.query(Product).filter_by(
-            category_id=category).all()
-
+            category_id=id).all()
         self.close()
         return result
 

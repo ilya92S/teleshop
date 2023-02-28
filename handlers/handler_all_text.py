@@ -84,7 +84,7 @@ class HandlerAllText(Handler):
 
             """*****меню(категория товара, ПФ, Бакалея, Мороженное)*****"""
             if message.text == config.KEYBOARD['SEMIPRODUCT']:
-                self.pressed_btn_product(message, '')
+                self.pressed_btn_product(message, 'SEMIPRODUCT')
 
             if message.text == config.KEYBOARD['GROCERY']:
                 self.pressed_btn_product(message, 'GROCERY')
