@@ -83,7 +83,8 @@ class Keyboards:
 
         return self.markup
 
-    def set_inline_btn(self, name):
+    @staticmethod
+    def set_inline_btn(name):
         """
         Создает и возвращает инлайн кнопку по входным параметрам
         """

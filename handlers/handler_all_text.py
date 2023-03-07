@@ -69,7 +69,7 @@ class HandlerAllText(Handler):
             print(f'команда {message.text} была отловлена обработчиком событий', message.from_user.id,
                   message.from_user.first_name)
 
-            """*****МЕНЮ*****"""
+            """*****ГЛАВНОЕ МЕНЮ*****"""
             if message.text == config.KEYBOARD['INFO']:
                 self.pressed_btn_info(message)
 

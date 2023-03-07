@@ -1,5 +1,5 @@
 from os import path
-import emoji
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from data_base.dbcore import Base
