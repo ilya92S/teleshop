@@ -6,6 +6,8 @@ from data_base.dbcore import Base
 
 from settings import config
 from models.product import Product
+from models.order import Order
+import datetime
 
 
 class Singleton(type):
@@ -60,3 +62,40 @@ class DBManager(metaclass=Singleton):
     def close(self):
         """Закрывает ссесию"""
         self._session.close()
+
+    def _add_orders(self, quantity, product_id, user_id):
+        """
+        Метод заполнения заказа
+        """
+        # получаем список всех product_id
+        all_id_product = self.select_all_product_id()
+        # если данные есть в списке, обновляем таблицы заказа и продуктов
+        if product_id in all_id_product:
+            quantity_order = self.select_order_quantity(product_id)
+            quantity_order += 1
+            self.update_order_value(product_id, 'quantity', quantity_order)
+
+            quantity_product = self.select_single_product_quantity(product_id)
+            quantity_product -= 1
+            self.update_product_value(product_id, 'quantity', quantity_product)
+        # если данных нет создаем новый объект заказа
+        else:
+            order = Order(quantity=quantity, product_id=product_id,
+                          user_id=user_id, data=datetime.now())
+            quantity_product = self.select_single_product_quantity(product_id)
+            quantity_product -= 1
+            self.update_product_value(product_id, 'quantity', quantity_product)
+
+        self._session.add(order)
+        self._session.commit()
+        self.close()
+
+    def select_all_product_id(self):
+        """
+        Возвращаем все id товара в заказе
+        """
+        result = self._session.query(Order.product_id).all()
+        self.close()
+        # конвертируем результат выборки на вид [1, 3, 5, ...]
+        return utility._convert(result)
+
