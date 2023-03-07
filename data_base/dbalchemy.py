@@ -60,10 +60,13 @@ class DBManager(metaclass=Singleton):
         return result
 
     def close(self):
-        """Закрывает ссесию"""
+        """
+        Закрывает сесию
+        """
         self._session.close()
 
-    def _add_orders(self, quantity, product_id, user_id):
+    # Работа с заказом
+    def _add_orders(self, quantity, product_id, user_id,):
         """
         Метод заполнения заказа
         """
@@ -79,7 +82,7 @@ class DBManager(metaclass=Singleton):
             quantity_product -= 1
             self.update_product_value(product_id, 'quantity', quantity_product)
             return
-        # если данных нет создаем новый объект заказа
+        # если данных нет, создаем новый объект заказа
         else:
             order = Order(quantity=quantity, product_id=product_id,
                           user_id=user_id, data=datetime.datetime.now())
@@ -91,32 +94,16 @@ class DBManager(metaclass=Singleton):
         self._session.commit()
         self.close()
 
+    # конвертирует список с p[(5,),(8,),...] к [5,8,...]
     def select_all_product_id(self):
         """
-        Возвращаем все id товара в заказе
+        Возвращает все id товара в заказе
         """
         result = self._session.query(Order.product_id).all()
         self.close()
-        # конвертируем результат выборки на вид [1, 3, 5, ...]
+        # конвертируем результат выборки в вид [1,3,5...]
         return utility._convert(result)
 
-    def select_order_quantity(self, product_id):
-        """
-        Возвращает количество товара в заказе
-        """
-        result = self._session.query(Order).filter_by(
-            product_id=product_id).one()
-        self.close()
-        return result.quantity
-
-    def update_order_value(self, product_id, name, value):
-        """
-        Обновляет данные указанной позиции заказа
-        в соответствии с номером товара - rownum
-        """
-        self._session.query(Order).filter_by(
-            product_id=product_id).update({name: value})
-        self.close()
 
     def select_single_product_quantity(self, rownum):
         """
@@ -134,7 +121,18 @@ class DBManager(metaclass=Singleton):
         Обновляет количество товара на складе
         в соответствии с номером товара - rownum
         """
-        self._session.query(Product).filter_by(id=rownum).update({name: value})
+        self._session.query(Product).filter_by(
+            id=rownum).update({name: value})
+        self._session.commit()
+        self.close()
+
+    def update_order_value(self, product_id, name, value):
+        """
+        Обновляет данные указанной позиции заказа
+        в соответствии с номером товара - rownum
+        """
+        self._session.query(Order).filter_by(
+            product_id=product_id).update({name: value})
         self._session.commit()
         self.close()
 
@@ -165,3 +163,20 @@ class DBManager(metaclass=Singleton):
         self.close()
         return result.price
 
+    def count_rows_order(self):
+        """
+        Возвращает количество позиций в заказе
+        """
+        result = self._session.query(Order).count()
+        self.close()
+        return result
+
+    def select_order_quantity(self, product_id):
+        """
+        Возвращает количество товара из заказа
+        в соответствии с номером товара - rownum
+        """
+        result = self._session.query(Order.quantity).filter_by(
+            product_id=product_id).one()
+        self.close()
+        return result.quantity
