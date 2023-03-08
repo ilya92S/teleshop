@@ -88,6 +88,50 @@ class HandlerAllText(Handler):
                               reply_markup=self.keybords.order_menu(
                                   self.step, quantity))
 
+    def pressed_btn_up(self, message):
+        """
+        Обработка нажатия кнопки увеличения
+        количества определенного товара в заказе.
+        """
+        # получаем список всех товаров в заказе
+        count = self.BD.select_all_product_id()
+        # получаем количество единиц текущей товарной позиции заказа
+        quantity_order = self.BD.select_order_quantity(count[self.step])
+        # получаем количество данного товара на складе
+        quantity_product = self.BD.select_single_product_quantity(count[self.step])
+        # если товар есть
+        if quantity_product > 0:
+            quantity_order += 1
+            quantity_product -= 1
+            # вносим изменение в БД orders
+            self.BD.update_order_value(count[self.step], 'quantity', quantity_order)
+            # вносим изменение в БД product
+            self.BD.update_product_value(count[self.step], 'quantity', quantity_product)
+        # отправляем ответ пользователю
+        self.send_message_order(count[self.step], quantity_order, message)
+
+    def pressed_btn_douwn(self, message):
+        """
+        Обработка нажатия кнопки уменьшения
+        количества определенного товара в заказе
+        """
+        # получаем список всех товаров в заказе
+        count = self.BD.select_all_product_id()
+        # получаем количество единиц текущей товарной позиции заказа
+        quantity_order = self.BD.select_order_quantity(count[self.step])
+        # получаем количество данного товара на складе
+        quantity_product = self.BD.select_single_product_quantity(count[self.step])
+        # если товар есть
+        if quantity_product > 0:
+            quantity_order -= 1
+            quantity_product += 1
+            # вносим изменение в БД orders
+            self.BD.update_order_value(count[self.step], 'quantity', quantity_order)
+            # вносим изменение в БД product
+            self.BD.update_product_value(count[self.step], 'quantity', quantity_product)
+            # отправляем ответ пользователю
+        self.send_message_order(count[self.step], quantity_order, message)
+
     def handle(self):
         """
         Обработчик(декоратор) сообщений, который обрабатывает
@@ -130,6 +174,14 @@ class HandlerAllText(Handler):
                     self.bot.send_message(message.chat_id, MESSAGES['no_orders'],
                                           parse_mode='HTML',
                                           reply_markup=self.keybords.category_menu())
+
+            """*****ИНТЕРФЕЙС РЕДАКТИРОВАНИЯ ЗАКАЗА*****"""
+
+            if message.text == config.KEYBOARD['UP']:
+                self.pressed_btn_up(message)
+            if message.text == config.KEYBOARD['DOUWN']:
+                self.pressed_btn_douwn(message)
+
 
 
 
