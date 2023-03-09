@@ -104,7 +104,6 @@ class DBManager(metaclass=Singleton):
         # конвертируем результат выборки в вид [1,3,5...]
         return utility._convert(result)
 
-
     def select_single_product_quantity(self, rownum):
         """
         Возвращает количество товара на складе
@@ -180,3 +179,12 @@ class DBManager(metaclass=Singleton):
             product_id=product_id).one()
         self.close()
         return result.quantity
+
+    def delete_order(self, product_id):
+        """
+        Удаляет данные указаной строки заказа
+        """
+        self._session.query(Order).filter_by(product_id=product_id).delete()
+        self._session.commit()
+        self.close()
+

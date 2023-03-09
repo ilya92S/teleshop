@@ -99,6 +99,7 @@ class HandlerAllText(Handler):
         quantity_order = self.BD.select_order_quantity(count[self.step])
         # получаем количество данного товара на складе
         quantity_product = self.BD.select_single_product_quantity(count[self.step])
+
         # если товар есть
         if quantity_product > 0:
             quantity_order += 1
@@ -121,6 +122,7 @@ class HandlerAllText(Handler):
         quantity_order = self.BD.select_order_quantity(count[self.step])
         # получаем количество данного товара на складе
         quantity_product = self.BD.select_single_product_quantity(count[self.step])
+
         # если товар есть
         if quantity_product > 0:
             quantity_order -= 1
@@ -131,6 +133,74 @@ class HandlerAllText(Handler):
             self.BD.update_product_value(count[self.step], 'quantity', quantity_product)
             # отправляем ответ пользователю
         self.send_message_order(count[self.step], quantity_order, message)
+
+    def pressed_btn_x(self, message):
+        """
+        Обдрабатывает нажатие кнопки удаление товара в заказе
+        """
+        # получаем список всех product_id заказа
+        count = self.BD.select_all_product_id()
+
+        # если список не пуст
+        if count.__len__() > 0:
+            # получаем количество конкретной позиции в заказе
+            quantity_order = self.BD.select_order_quantity(count[self.step])
+            # получаем количество товара конкретной позиции на складе
+            quantity_product = self.BD.select_single_product_quantity(count[self.step])
+            # возвращаем количество товара из заказа обратно на склад
+            quantity_product += quantity_order
+            # вносим изменения в БД orders
+            self.BD.delete_order(count[self.step])
+            # вносим изменение в БД product
+            self.BD.update_product_value(count[self.step], 'quantity', quantity_product)
+            # уменьшаем шаг
+            self.step -= 1
+
+        count = self.BD.select_all_product_id()
+
+        # если список не пуст
+        if count.__len__() > 0:
+            quantity_order = self.BD.select_order_quantity(count[self.step])
+            # отправляем пользоватлю сообщение
+            self.send_message_order(count[self.step], quantity_order, message)
+
+        else:
+            # если товара нет в заказе отправляем сообщение
+            self.bot.send_message(message.chat.id, MESSAGES['no_orders'],
+                                  parse_mode='HTML',
+                                  reply_markup=self.keybords.category_menu())
+
+    def pressed_btn_back_step(self, message):
+        """
+        Обрабатывает нажатие кнопки перемещение на
+        предыдущую позицию товара в заказе
+        """
+        if self.step > 0:
+            self.step -= 1
+        # получаем список всех товаров в заказе
+        count = self.BD.select_all_product_id()
+        quantity = self.BD.select_order_quantity(count[self.step])
+
+        # отправляем ответ пользователю
+        self.send_message_order(count[self.step], quantity, message)
+
+    def pressed_btn_next_step(self, message):
+        """
+        Обрабатывает нажатие кнопки перемещения
+        на следующую позицию товара в заказе
+        """
+        # увеличиваем шаг пока он не будет равен количеству строк
+        # заказ с расчетом цены деления начиная с "0"
+        if self.step < self.BD.count_rows_order() -1 :
+            self.step += 1
+        # получаем список всех товаров в заказе
+        count = self.BD.select_all_product_id()
+        # получаем количества конкретного товара
+        # в соответствии с шагом выборки
+        quantity = self.BD.select_order_quantity(count[self.step])
+
+        # отправляем ответ пользователю
+        self.send_message_order(count[self.step], quantity, message)
 
     def handle(self):
         """
@@ -181,6 +251,12 @@ class HandlerAllText(Handler):
                 self.pressed_btn_up(message)
             if message.text == config.KEYBOARD['DOUWN']:
                 self.pressed_btn_douwn(message)
+            if message.text == config.KEYBOARD['X']:
+                self.pressed_btn_x(message)
+            if message.text == config.KEYBOARD['BACK_STEP']:
+                self.pressed_btn_back_step(message)
+            if message.text == config.KEYBOARD['NEXT_STEP']:
+                self.pressed_btn_next_step(message)
 
 
 
