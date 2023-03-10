@@ -1,7 +1,7 @@
 import os
 from emoji import emojize
 
-TOKEN = '5976169619:AAG2ni-VRyjkHXfG5NO3Y0UfnaFKW6pyo0k'
+TOKEN = 'YourBotToken'
 NAME_BD = 'products.db'
 VERSION = '0.0.1'
 AUTHOR = 'ILYA'
