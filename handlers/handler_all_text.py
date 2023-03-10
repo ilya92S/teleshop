@@ -227,8 +227,7 @@ class HandlerAllText(Handler):
         """
         @self.bot.message_handler(func=lambda message: True)
         def handle(message):
-            print(f'команда {message.text} была отловлена обработчиком событий', message.from_user.id,
-                  message.from_user.first_name)
+            print(f'{message.chat.first_name}, нажал на кнопку {message.text}')
 
             """*****ГЛАВНОЕ МЕНЮ*****"""
             if message.text == config.KEYBOARD['INFO']:
@@ -259,7 +258,7 @@ class HandlerAllText(Handler):
                 if self.BD.count_rows_order() > 0:
                     self.pressed_btn_order(message)
                 else:
-                    self.bot.send_message(message.chat_id, MESSAGES['no_orders'],
+                    self.bot.send_message(message.chat.id, MESSAGES['no_orders'],
                                           parse_mode='HTML',
                                           reply_markup=self.keybords.category_menu())
 
