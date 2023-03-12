@@ -9,15 +9,20 @@ AUTHOR = 'ILYA'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join('sqlite:///' + BASE_DIR, NAME_BD)
 COUNT = 0
+unicode_emoji = {
+    'personal computer': '\U0001F4BB',
+    'package': '\U0001F4E6',
+    'white right pointing backhand index': '\U0001F449'
+}
 
 KEYBOARD = {
     'DELETE_PRODUCT': emojize('Удвлить продукт'),
     'ADD_PRODUCT': emojize(':pencil: Добавить продукт'),
     'MANAGER_ORDER': emojize('Проверить наличие заказов'),
     'BACK_TO_MAIN_MENU': emojize('Выбор роли пользователя'),
-    "ADMIN MENU": emojize(':alien: Меню администратора'),
-    "MANAGER MENU": emojize(':star: Меню менеджера'),
-    "BUYER'S MENU": emojize(':sunglasses: Меню покупателя'),
+    "ADMIN MENU": emojize(unicode_emoji['personal computer'] + 'Меню администратора'),
+    "MANAGER MENU": emojize(unicode_emoji['package'] + 'Меню менеджера'),
+    "BUYER'S MENU": emojize(unicode_emoji['white right pointing backhand index'] + 'Меню покупателя'),
     'CHOOSE_GOODS': emojize(':open_file_folder: Выбрать товар'),
     'INFO': emojize(':speech_balloon: О магазине'),
     'SETTINGS': emojize('⚙️ Настройки'),
