@@ -206,3 +206,5 @@ class DBManager(metaclass=Singleton):
         result = self._session.query(Order.id).all()
         self.close()
         return utility._convert(result)
+
+

@@ -36,7 +36,7 @@ class HandlerAllText(Handler):
         от нажатия на кнопку "Назад".
         """
         self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                              reply_markup=self.keybords.start_menu())
+                              reply_markup=self.keybords.start_user_menu())
 
     def pressed_btn_category(self, message):
         """
@@ -220,6 +220,39 @@ class HandlerAllText(Handler):
         # очищаем данные с заказа
         self.BD.delete_all_order()
 
+    def pressed_btn_back_to_main_menu(self, message):
+        """
+        Обработка события нажатия на кнопу "Выбор роли пользователя"
+        """
+        self.bot.send_message(message.chat.id, "Вы вернулись в меню выбора роли пользователя",
+                              reply_markup=self.keybords.start_main_menu())
+
+    def pressed_btn_buy_menu(self, message):
+        """
+        Обработка событий нажатия на кнопку "Меню покупателя"
+        """
+        self.bot.send_message(message.chat.id, f"Здравствуйте {message.from_user.username},"
+                                               f"вы авторизовались как покупатель",
+                              reply_markup=self.keybords.remove_menu())
+        self.bot.send_message(message.chat.id, f'Меню покупателя',
+                              reply_markup=self.keybords.start_user_menu())
+
+    def pressed_btn_manager_menu(self, message):
+        """
+        Обработка событий нажатия на кнопку "Меню менеджера"
+        """
+        self.bot.send_message(message.chat.id, f"Здравствуйте {message.from_user.username},"
+                                               f"вы авторизовались как менеджер",
+                              reply_markup=self.keybords.manager_menu())
+
+    def pressed_btn_admin_menu(self, message):
+        """
+        Обработка событий нажатия на кнопку "Меню администратора"
+        """
+        self.bot.send_message(message.chat.id, f"Здравствуйте {message.from_user.username},"
+                                               f"вы авторизовались как администратор",
+                              reply_markup=self.keybords.admin_menu())
+
     def handle(self):
         """
         Обработчик(декоратор) сообщений, который обрабатывает
@@ -229,7 +262,16 @@ class HandlerAllText(Handler):
         def handle(message):
             print(f'{message.chat.first_name}, нажал на кнопку {message.text}')
 
-            """*****ГЛАВНОЕ МЕНЮ*****"""
+            """*****МЕНЮ ВЫБОРА ПОЛЬЗОВАТЕЛЬСКОЙ РОЛИ*****"""
+
+            if message.text == config.KEYBOARD["BUYER'S MENU"]:
+                self.pressed_btn_buy_menu(message)
+            if message.text == config.KEYBOARD["MANAGER MENU"]:
+                self.pressed_btn_manager_menu(message)
+            if message.text == config.KEYBOARD["ADMIN MENU"]:
+                self.pressed_btn_admin_menu(message)
+
+            """*****ГЛАВНОЕ МЕНЮ ПОКУПАТЕЛЯ*****"""
             if message.text == config.KEYBOARD['INFO']:
                 self.pressed_btn_info(message)
 
@@ -241,6 +283,9 @@ class HandlerAllText(Handler):
 
             if message.text == config.KEYBOARD['CHOOSE_GOODS']:
                 self.pressed_btn_category(message)
+
+            if message.text == config.KEYBOARD['BACK_TO_MAIN_MENU']:
+                self.pressed_btn_back_to_main_menu(message)
 
             """*****меню(категория товара, ПФ, Бакалея, Мороженное)*****"""
             if message.text == config.KEYBOARD['SEMIPRODUCT']:

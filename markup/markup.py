@@ -14,7 +14,7 @@ class Keyboards:
 
     def set_btn(self, name, step=0, quantity=0):
         """
-        Создаем и возвращаем кнопку по входным параметрам
+        Создаем и возвращаем кнопку по входным параметрам.
         """
         if name == "AMOUNT_ORDERS":
             config.KEYBOARD['AMOUNT_ORDERS'] = '{} {} {}'.format(step + 1, ' из ',
@@ -25,15 +25,45 @@ class Keyboards:
 
         return KeyboardButton(config.KEYBOARD[name])
 
-    def start_menu(self):
+    def start_main_menu(self):
+        """Создает разметку выбора роли в магазине."""
+        self.markup = ReplyKeyboardMarkup(True, True)
+        itm_btn_1 = self.set_btn("BUYER'S MENU")
+        itm_btn_2 = self.set_btn("MANAGER MENU")
+        itm_btn_3 = self.set_btn("ADMIN MENU")
+        self.markup.row(itm_btn_1)
+        self.markup.row(itm_btn_2)
+        self.markup.row(itm_btn_3)
+        return self.markup
+
+    def manager_menu(self):
+        """Создает разметку кнопок для меню менеджера"""
+        self.markup = ReplyKeyboardMarkup(True, True)
+        itm_btn_1 = self.set_btn('MANAGER_ORDER')
+        itm_btn_2 = self.set_btn('BACK_TO_MAIN_MENU')
+        self.markup.add(itm_btn_2, itm_btn_1)
+        return self.markup
+
+    def admin_menu(self):
+        """Создает разметку кнопок для меню админа."""
+        self.markup = ReplyKeyboardMarkup(True, True)
+        itm_btn_1 = self.set_btn('BACK_TO_MAIN_MENU')
+        itm_btn_2 = self.set_btn('ADD_PRODUCT')
+        itm_btn_3 = self.set_btn('DELETE_PRODUCT')
+        self.markup.add(itm_btn_1, itm_btn_2, itm_btn_3)
+        return self.markup
+
+    def start_user_menu(self):
         """Создает разметку кнопок в основном меню и возвращает разметку."""
         self.markup = ReplyKeyboardMarkup(True, True)
         itm_btn_1 = self.set_btn('CHOOSE_GOODS')
         itm_btn_2 = self.set_btn('INFO')
         itm_btn_3 = self.set_btn('SETTINGS')
+        itm_btn_4 = self.set_btn('BACK_TO_MAIN_MENU')
         # ниже будет приветден порядок расположения кнопок
         self.markup.row(itm_btn_1)
         self.markup.row(itm_btn_2, itm_btn_3)
+        self.markup.row(itm_btn_4)
         return self.markup
 
     def info_menu(self):
