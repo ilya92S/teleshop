@@ -1,22 +1,31 @@
 import os
 from emoji import emojize
 
-TOKEN = 'YourBotToken'
+TOKEN = '5976169619:AAG2ni-VRyjkHXfG5NO3Y0UfnaFKW6pyo0k'
 NAME_BD = 'products.db'
-VERSION = '0.0.1'
-AUTHOR = 'ILYA'
+VERSION = '1.0.1'
+AUTHOR = 'ilya92S'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join('sqlite:///' + BASE_DIR, NAME_BD)
 COUNT = 0
 
+UNICODE_EMOJI = {
+    'open_file': '\U0001F4C2',
+    'info': '\U0001F4AC',
+    'settings': '\U00002699',
+    'laptop': '\U0001F4BB',
+    'desktop': '\U0001F5A5',
+    'printer': '\U0001F5A8'
+}
+
 KEYBOARD = {
-    'CHOOSE_GOODS': emojize(':open_file_folder: Выбрать товар'),
-    'INFO': emojize(':speech_balloon: О магазине'),
-    'SETTINGS': emojize('⚙️ Настройки'),
-    'SEMIPRODUCT': emojize(':pizza: Полуфабрикаты'),
-    'GROCERY': emojize(':bread: Бакалея'),
-    'ICE_CREAM': emojize(':shaved_ice: Мороженое'),
+    'CHOOSE_GOODS': emojize(UNICODE_EMOJI['open_file'] + 'Выбрать товар'),
+    'INFO': emojize(UNICODE_EMOJI['info'] + 'О магазине'),
+    'SETTINGS': emojize(UNICODE_EMOJI['settings'] + 'Настройки'),
+    'LAPTOP': emojize(UNICODE_EMOJI['laptop'] + 'Ноутбуки'),
+    'DESKTOP': emojize(UNICODE_EMOJI['desktop'] + 'Стационарные компьютеры'),
+    'PRINTER': emojize(UNICODE_EMOJI['printer'] + 'Принтеры'),
     '<<': emojize('⏪'),
     '>>': emojize('⏩'),
     'BACK_STEP': emojize('◀️'),
@@ -32,9 +41,9 @@ KEYBOARD = {
 }
 
 CATEGORY = {
-    'SEMIPRODUCT': 1,
-    'GROCERY': 2,
-    'ICE_CREAM': 3
+    'LAPTOP': 1,
+    'DESKTOP': 2,
+    'PRINTER': 3
 } # id категории продуктв
 
 COMMANDS = {

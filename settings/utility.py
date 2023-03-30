@@ -15,7 +15,7 @@ def total_coast(list_quantity, list_price):
         return order_total_cost
 
 
-# считает  общее количество заказанной единицы товара и возвращает результат
+# считает общее количество заказанной единицы товара и возвращает результат
 def total_quantity(list_quantity):
 
     order_total_quantity = 0

@@ -47,13 +47,15 @@ class DBManager(metaclass=Singleton):
         """
         Возвращает все товары категории
         """
+        print(category[1::])
         id = 0
-        if category[2::] == 'Полуфабрикаты':
+        if category[1::] == 'Ноутбуки':
             id = 1
-        elif category[2::] == 'Бакалея':
+        elif category[1::] == 'Стационарные компьютеры':
             id = 2
-        elif category[2::] == 'Мороженое':
+        elif category[1::] == 'Принтеры':
             id = 3
+        print(id)
         result = self._session.query(Product).filter_by(
             category_id=id).all()
         self.close()

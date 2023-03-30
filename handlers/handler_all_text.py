@@ -227,7 +227,7 @@ class HandlerAllText(Handler):
         """
         @self.bot.message_handler(func=lambda message: True)
         def handle(message):
-            print(f'{message.chat.first_name}, нажал на кнопку {message.text}')
+            # print(f'{message.chat.first_name}, нажал на кнопку {message.text}')
 
             """*****ГЛАВНОЕ МЕНЮ*****"""
             if message.text == config.KEYBOARD['INFO']:
@@ -242,15 +242,15 @@ class HandlerAllText(Handler):
             if message.text == config.KEYBOARD['CHOOSE_GOODS']:
                 self.pressed_btn_category(message)
 
-            """*****меню(категория товара, ПФ, Бакалея, Мороженное)*****"""
-            if message.text == config.KEYBOARD['SEMIPRODUCT']:
-                self.pressed_btn_product(message, 'SEMIPRODUCT')
+            """*****меню(категория товаров Ноутбуки, Компьютеры, Принтеры)*****"""
+            if message.text == config.KEYBOARD['LAPTOP']:
+                self.pressed_btn_product(message, 'LAPTOP')
 
-            if message.text == config.KEYBOARD['GROCERY']:
-                self.pressed_btn_product(message, 'GROCERY')
+            if message.text == config.KEYBOARD['DESKTOP']:
+                self.pressed_btn_product(message, 'DESKTOP')
 
-            if message.text == config.KEYBOARD['ICE_CREAM']:
-                self.pressed_btn_product(message, 'ICE_CREAM')
+            if message.text == config.KEYBOARD['PRINTER']:
+                self.pressed_btn_product(message, 'PRINTER')
 
             """******ОБРАБАТЫВАЕМ СООБЩЕНИЕ -ЗАКАЗ-*****"""
             if message.text == config.KEYBOARD['ORDER']:
