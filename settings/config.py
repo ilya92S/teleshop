@@ -1,10 +1,10 @@
 import os
 from emoji import emojize
 
-TOKEN = '5976169619:AAG2ni-VRyjkHXfG5NO3Y0UfnaFKW6pyo0k'
+TOKEN = 'you token'
 NAME_BD = 'products.db'
 VERSION = '1.0.1'
-AUTHOR = 'ilya92S'
+AUTHOR = 'you name'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE = os.path.join('sqlite:///' + BASE_DIR, NAME_BD)
